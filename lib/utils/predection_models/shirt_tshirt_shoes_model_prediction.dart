@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 
 import 'package:tflite_flutter/tflite_flutter.dart';
+
+import '../models/prediction.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
 class ShirtTshirtShoesModelPrediction {
@@ -13,7 +15,7 @@ class ShirtTshirtShoesModelPrediction {
   //   return img.decodeImage(bytes)!;
   // }
 
-  Future<String> predict({required Uint8List imageUint8}) async {
+  Future<Prediction> predict({required Uint8List imageUint8}) async {
     final interpreter =
         await Interpreter.fromAsset('assets/ai_models/model_STSH.tflite');
     log("Model expects input shape: ${interpreter.getInputTensor(0).shape}");
@@ -41,7 +43,11 @@ class ShirtTshirtShoesModelPrediction {
     print("Shirt: ${predictionPercentages[1].toStringAsFixed(2)}%");
     print("Shoes: ${predictionPercentages[2].toStringAsFixed(2)}%");
     // log(getPredictionResult(predictionPercentages));
-    return getPredictionResult(predictionPercentages);
+    Prediction prediction = Prediction();
+    prediction.predictionResult = getPredictionResult(predictionPercentages);
+    prediction.predictionValues = predictionPercentages;
+    prediction.lables = ["Dress", "Trousers", "Bag"];
+    return prediction;
   }
 
   String getPredictionResult(List<dynamic> predictionPercentages) {

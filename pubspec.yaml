@@ -63,6 +63,7 @@ flutter:
     - assets\images\shoes.jpeg
     - assets\images\image_holder.jpeg
     - assets\ai_models\model_STSH.tflite
+    - assets\ai_models\dress_trousers_bag_model.tflite
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
