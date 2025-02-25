@@ -54,7 +54,7 @@ class DressTrousersBagPrediction {
     return prediction;
   }
 
-  String getPredictionResult(List<dynamic> predictionPercentages) {
+  int getPredictionResult(List<dynamic> predictionPercentages) {
     // Define the labels corresponding to the output indices
     List<String> labels = ["Dress", "Trousers", "Bag"];
 
@@ -68,11 +68,9 @@ class DressTrousersBagPrediction {
         maxIndex = i;
       }
     }
-    if (maxProbability < 80) {
-      return "Other";
-    }
+
     // Return the label with the highest probability
-    return labels[maxIndex];
+    return maxIndex;
   }
 
   // Convert image to Float32List for TensorFlow Lite model input

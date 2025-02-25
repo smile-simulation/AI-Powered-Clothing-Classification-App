@@ -62,7 +62,13 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
       // imageType = prediction.predictionResult!;
       setState(() {});
     } else {
-      log("No image selected");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "No image selected",
+          ),
+        ),
+      );
     }
   }
 
@@ -75,14 +81,6 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // SwitchListTile(
-              //   value: isBaherModel,
-              //   title: Text("Is Baher Model"),
-              //   onChanged: (val) {
-              //     isBaherModel = !isBaherModel;
-              //     setState(() {});
-              //   },
-              // ),
               SizedBox(
                 height: 220,
                 child: ImageDisplay(
@@ -94,9 +92,9 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
                 onPickFromGallery: () => pickImage(ImageSource.gallery),
                 onPredict: predictImageType,
               ),
-              // Text(
-              //   "Your image is: ${selectedPrediction?.predictionResult ?? 'Not Selected'}",
-              // ),
+              Text(
+                "Your image is: ${getFinalResultPrediction(firstPrediction: baherPrediction, secondPrediction: asmaaPrediction) ?? 'Not Selected'}",
+              ),
               selectedPrediction != null
                   ? Expanded(
                       child: Column(
@@ -104,7 +102,8 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
                           baherPrediction != null
                               ? ShowPredictionValues(
                                   prediction: baherPrediction!,
-                                  predictionModel: 'Baher Prediction',
+                                  predictionModel:
+                                      'shirt, T-shirt, shoes Prediction',
                                 )
                               : SizedBox(),
                           SizedBox(
@@ -113,7 +112,7 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
                           asmaaPrediction != null
                               ? ShowPredictionValues(
                                   prediction: asmaaPrediction!,
-                                  predictionModel: 'Asmaa Prediction',
+                                  predictionModel: 'dress, trousers, bag',
                                 )
                               : SizedBox(),
                         ],
@@ -165,7 +164,7 @@ class ShowPredictionValues extends StatelessWidget {
                 Text("Result: ${prediction.predictionResult}"),
                 for (int i = 0; i < 3; i++)
                   Text(
-                    "${prediction.lables?[i] ?? 'not set'}: ${prediction.predictionValues?[i] ?? 'not set'}",
+                    "${prediction.lables?[i] ?? 'not set'}: ${double.tryParse(prediction.predictionValues?[i].toStringAsFixed(2)) ?? 'not set'} %",
                   ),
                 Spacer(),
               ],
@@ -174,5 +173,26 @@ class ShowPredictionValues extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+String? getFinalResultPrediction({
+  required Prediction? firstPrediction,
+  required Prediction? secondPrediction,
+}) {
+  if (firstPrediction == null || secondPrediction == null) {
+    return null;
+  }
+  if (firstPrediction.predictionValues![firstPrediction.predictionResult!] <
+          90 &&
+      secondPrediction.predictionValues![secondPrediction.predictionResult!] <
+          90) {
+    return "no valid clothes";
+  }
+  if (firstPrediction.predictionValues![firstPrediction.predictionResult!] >
+      secondPrediction.predictionValues![secondPrediction.predictionResult!]) {
+    return firstPrediction.lables![firstPrediction.predictionResult!];
+  } else {
+    return secondPrediction.lables![secondPrediction.predictionResult!];
   }
 }

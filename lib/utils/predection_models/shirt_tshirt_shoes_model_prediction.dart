@@ -46,11 +46,11 @@ class ShirtTshirtShoesModelPrediction {
     Prediction prediction = Prediction();
     prediction.predictionResult = getPredictionResult(predictionPercentages);
     prediction.predictionValues = predictionPercentages;
-    prediction.lables = ["Dress", "Trousers", "Bag"];
+    prediction.lables = ["T-Shirt", "Shirt", "Shoes"];
     return prediction;
   }
 
-  String getPredictionResult(List<dynamic> predictionPercentages) {
+  int getPredictionResult(List<dynamic> predictionPercentages) {
     // Define the labels corresponding to the output indices
     List<String> labels = ["T-Shirt", "Shirt", "Shoes"];
 
@@ -66,7 +66,7 @@ class ShirtTshirtShoesModelPrediction {
     }
 
     // Return the label with the highest probability
-    return labels[maxIndex];
+    return maxIndex;
   }
 
   // Convert image to Float32List for TensorFlow Lite model input

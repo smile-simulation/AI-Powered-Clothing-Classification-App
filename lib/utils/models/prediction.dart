@@ -1,5 +1,5 @@
 class Prediction {
-  String? predictionResult;
+  int? predictionResult;
   List<dynamic>? predictionValues;
   List<String>? lables;
 }
