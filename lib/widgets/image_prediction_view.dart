@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:connect_tenserflow/utils/models/prediction.dart';
@@ -9,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../utils/predection_models/shirt_tshirt_shoes_model_prediction.dart';
 import 'button_row.dart';
 import 'image_display.dart';
+import 'prediction_display.dart';
 
 class ImagePredictionView extends StatefulWidget {
   const ImagePredictionView({super.key});
@@ -75,6 +75,11 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        foregroundColor: Colors.white,
+        title: Text("AI powered Clothes classification"),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -96,27 +101,9 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
                 "Your image is: ${getFinalResultPrediction(firstPrediction: baherPrediction, secondPrediction: asmaaPrediction) ?? 'Not Selected'}",
               ),
               selectedPrediction != null
-                  ? Expanded(
-                      child: Column(
-                        children: [
-                          baherPrediction != null
-                              ? ShowPredictionValues(
-                                  prediction: baherPrediction!,
-                                  predictionModel:
-                                      'shirt, T-shirt, shoes Prediction',
-                                )
-                              : SizedBox(),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          asmaaPrediction != null
-                              ? ShowPredictionValues(
-                                  prediction: asmaaPrediction!,
-                                  predictionModel: 'dress, trousers, bag',
-                                )
-                              : SizedBox(),
-                        ],
-                      ),
+                  ? PredictionDisplay(
+                      baherPrediction: baherPrediction,
+                      asmaaPrediction: asmaaPrediction,
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -132,67 +119,26 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
       ),
     );
   }
-}
 
-class ShowPredictionValues extends StatelessWidget {
-  const ShowPredictionValues({
-    super.key,
-    required this.prediction,
-    required this.predictionModel,
-  });
-  final String predictionModel;
-  final Prediction prediction;
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: SizedBox(
-        width: double.infinity,
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Text(
-                  predictionModel,
-                  style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24,
-                  ),
-                ),
-                Spacer(),
-                Text("Result: ${prediction.predictionResult}"),
-                for (int i = 0; i < 3; i++)
-                  Text(
-                    "${prediction.lables?[i] ?? 'not set'}: ${double.tryParse(prediction.predictionValues?[i].toStringAsFixed(2)) ?? 'not set'} %",
-                  ),
-                Spacer(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-String? getFinalResultPrediction({
-  required Prediction? firstPrediction,
-  required Prediction? secondPrediction,
-}) {
-  if (firstPrediction == null || secondPrediction == null) {
-    return null;
-  }
-  if (firstPrediction.predictionValues![firstPrediction.predictionResult!] <
-          90 &&
-      secondPrediction.predictionValues![secondPrediction.predictionResult!] <
-          90) {
-    return "no valid clothes";
-  }
-  if (firstPrediction.predictionValues![firstPrediction.predictionResult!] >
-      secondPrediction.predictionValues![secondPrediction.predictionResult!]) {
-    return firstPrediction.lables![firstPrediction.predictionResult!];
-  } else {
-    return secondPrediction.lables![secondPrediction.predictionResult!];
+  String? getFinalResultPrediction({
+    required Prediction? firstPrediction,
+    required Prediction? secondPrediction,
+  }) {
+    if (firstPrediction == null || secondPrediction == null) {
+      return null;
+    }
+    if (firstPrediction.predictionValues![firstPrediction.predictionResult!] <
+            90 &&
+        secondPrediction.predictionValues![secondPrediction.predictionResult!] <
+            90) {
+      return "no valid clothes";
+    }
+    if (firstPrediction.predictionValues![firstPrediction.predictionResult!] >
+        secondPrediction
+            .predictionValues![secondPrediction.predictionResult!]) {
+      return firstPrediction.lables![firstPrediction.predictionResult!];
+    } else {
+      return secondPrediction.lables![secondPrediction.predictionResult!];
+    }
   }
 }
