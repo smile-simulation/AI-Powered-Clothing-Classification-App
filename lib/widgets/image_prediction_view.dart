@@ -1,7 +1,8 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:connect_tenserflow/utils/image_prediction/models/prediction.dart';
 import 'package:connect_tenserflow/utils/image_prediction/predection_models/clothes_prediction.dart';
+import 'package:connect_tenserflow/utils/image_prediction/predection_models/dress_trousers_bag_prediction.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,20 +22,37 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
   XFile? imageXFile;
   Uint8List? imageUint8List;
   String imageType = "No Image Selected";
-  bool isBaherModel = false;
-  Prediction? selectedPrediction;
+  // bool isBaherModel = false;
+  bool selectedPrediction = false;
   ShirtTshirtShoesModelPrediction baherPrediction =
       ShirtTshirtShoesModelPrediction();
-  ShirtTshirtShoesModelPrediction asmaaPrediction =
-      ShirtTshirtShoesModelPrediction();
+  DressTrousersBagPrediction asmaaPrediction = DressTrousersBagPrediction();
+  ImagePicker imagePicker = ImagePicker();
+  resetImagePickers() {
+    selectedPrediction = false;
+    imageXFile = null;
+    imageUint8List = null;
+    imageType = "No Image Selected";
+    baherPrediction.prediction = null;
+    asmaaPrediction.prediction = null;
+  }
 
   Future<void> pickImage(ImageSource source) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
+    resetImagePickers();
+    final pickedFile = await imagePicker.pickImage(source: source);
+    setState(() {});
     if (pickedFile != null) {
-      setState(() {
-        imageXFile = pickedFile;
-      });
+      imageXFile = pickedFile;
       convertFromFileToImage();
+    }
+    if (pickedFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            "No Image Selected",
+          ),
+        ),
+      );
     }
   }
 
@@ -61,6 +79,11 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
         ),
       );
       // imageType = prediction.predictionResult!;
+      log(asmaaPrediction.prediction?.lables.toString() ??
+          "no prediction asmaa");
+      log(baherPrediction.prediction?.lables.toString() ??
+          'not prediction baher');
+      selectedPrediction = true;
       setState(() {});
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -104,7 +127,7 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
                       secondPrediction: asmaaPrediction.prediction,
                     ) ?? 'Not Selected'}",
               ),
-              selectedPrediction != null
+              selectedPrediction
                   ? PredictionDisplay(
                       baherPrediction: baherPrediction.prediction,
                       asmaaPrediction: asmaaPrediction.prediction,

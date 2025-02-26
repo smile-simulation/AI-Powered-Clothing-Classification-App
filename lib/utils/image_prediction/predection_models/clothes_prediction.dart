@@ -1,11 +1,14 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
+import 'package:tflite_flutter/tflite_flutter.dart';
 
 import '../models/prediction.dart';
 
 class ClothesPrediction {
   Prediction? prediction;
+
   int getPredictionResult(List<dynamic> predictionPercentages) {
     // Find the index of the highest probability
     int maxIndex = 0;
@@ -63,5 +66,35 @@ class ClothesPrediction {
     } else {
       return secondPrediction.lables![secondPrediction.predictionResult!];
     }
+  }
+
+  Future<Prediction> loadAndRunModel({
+    required String modelPath,
+    required Uint8List imageUint8,
+    required int inputSize,
+    required List<String> labels,
+  }) async {
+    final interpreter = await Interpreter.fromAsset(modelPath);
+    log("Model expects input shape: ${interpreter.getInputTensor(0).shape}");
+
+    img.Image image = img.decodeImage(imageUint8)!;
+    image = img.copyResize(image, width: inputSize, height: inputSize);
+
+    Float32List input = await imageToByteListFloat32(image, inputSize);
+    var reshapedInput = input.reshape([1, inputSize, inputSize, 3]);
+    var output =
+        List.filled(1 * labels.length, 0.0).reshape([1, labels.length]);
+
+    interpreter.run(reshapedInput, output);
+    interpreter.close(); // Free memory
+
+    List<dynamic> predictionPercentages =
+        (output[0] as List).map((e) => e * 100).toList();
+    log("Prediction Probabilities: $predictionPercentages");
+
+    return Prediction()
+      ..predictionResult = getPredictionResult(predictionPercentages)
+      ..predictionValues = predictionPercentages
+      ..lables = labels;
   }
 }
