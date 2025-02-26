@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-import '../models/prediction.dart';
+import 'models/prediction.dart';
 
-class ClothesPrediction {
+abstract class BaseClothesPrediction {
   Prediction? prediction;
 
   int getPredictionResult(List<dynamic> predictionPercentages) {
@@ -46,27 +46,7 @@ class ClothesPrediction {
     return convertedBytes;
   }
 
-  String? getFinalResultPrediction({
-    required Prediction? firstPrediction,
-    required Prediction? secondPrediction,
-  }) {
-    if (firstPrediction == null || secondPrediction == null) {
-      return null;
-    }
-    if (firstPrediction.predictionValues![firstPrediction.predictionResult!] <
-            90 &&
-        secondPrediction.predictionValues![secondPrediction.predictionResult!] <
-            90) {
-      return "no valid clothes";
-    }
-    if (firstPrediction.predictionValues![firstPrediction.predictionResult!] >
-        secondPrediction
-            .predictionValues![secondPrediction.predictionResult!]) {
-      return firstPrediction.lables![firstPrediction.predictionResult!];
-    } else {
-      return secondPrediction.lables![secondPrediction.predictionResult!];
-    }
-  }
+  
 
   Future<Prediction> loadAndRunModel({
     required String modelPath,

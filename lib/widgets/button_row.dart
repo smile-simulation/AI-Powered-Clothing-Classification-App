@@ -1,4 +1,4 @@
-
+import 'package:connect_tenserflow/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ButtonRow extends StatelessWidget {
@@ -26,9 +26,21 @@ class ButtonRow extends StatelessWidget {
           onPressed: onPickFromGallery,
           icon: const Icon(Icons.photo),
         ),
-        IconButton(
+        TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: AppColors.primaryColor,
+            foregroundColor: AppColors.whiteColor,
+          ),
           onPressed: onPredict,
-          icon: const Icon(Icons.search),
+          child: Row(
+            children: [
+              const Icon(Icons.smart_toy),
+              SizedBox(
+                width: 4,
+              ),
+              Text('Predict'),
+            ],
+          ),
         ),
       ],
     );

@@ -1,5 +1,4 @@
-
-import 'package:connect_tenserflow/utils/image_prediction/models/prediction.dart';
+import 'package:connect_tenserflow/utils/clothes_classification/clothes_prediction.dart';
 import 'package:flutter/material.dart';
 
 import 'custom_prediction_values_card.dart';
@@ -7,33 +6,26 @@ import 'custom_prediction_values_card.dart';
 class PredictionDisplay extends StatelessWidget {
   const PredictionDisplay({
     super.key,
-    required this.baherPrediction,
-    required this.asmaaPrediction,
+    required this.clothesPrediction,
   });
 
-  final Prediction? baherPrediction;
-  final Prediction? asmaaPrediction;
-
+  final ClothesPrediction clothesPrediction;
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
         children: [
-          baherPrediction != null
-              ? CustomPredictionValuesCard(
-                  prediction: baherPrediction!,
-                  predictionModel: 'shirt, T-shirt, shoes Prediction',
-                )
-              : SizedBox(),
+          CustomPredictionValuesCard(
+            prediction: clothesPrediction.baherPrediction.prediction!,
+            predictionModel: 'shirt, T-shirt, shoes Prediction',
+          ),
           SizedBox(
             height: 16,
           ),
-          asmaaPrediction != null
-              ? CustomPredictionValuesCard(
-                  prediction: asmaaPrediction!,
-                  predictionModel: 'dress, trousers, bag',
-                )
-              : SizedBox(),
+          CustomPredictionValuesCard(
+            prediction: clothesPrediction.asmaaPrediction.prediction!,
+            predictionModel: 'dress, trousers, bag Prediction',
+          )
         ],
       ),
     );

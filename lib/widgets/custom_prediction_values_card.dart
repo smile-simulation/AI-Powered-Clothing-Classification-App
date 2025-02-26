@@ -1,4 +1,5 @@
-import 'package:connect_tenserflow/utils/image_prediction/models/prediction.dart';
+import 'package:connect_tenserflow/utils/app_colors.dart';
+import 'package:connect_tenserflow/utils/clothes_classification/models/prediction.dart';
 import 'package:flutter/material.dart';
 
 class CustomPredictionValuesCard extends StatelessWidget {
@@ -21,14 +22,16 @@ class CustomPredictionValuesCard extends StatelessWidget {
               children: [
                 Text(
                   predictionModel,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.blueAccent,
+                    color: AppColors.primaryColor,
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
                   ),
                 ),
                 Spacer(),
-                Text("Result: ${prediction.predictionResult}"),
+                Text(
+                    "Result: ${prediction.lables![prediction.predictionResult!]}"),
                 for (int i = 0; i < 3; i++)
                   Text(
                     "${prediction.lables?[i] ?? 'not set'}: ${double.tryParse(prediction.predictionValues?[i].toStringAsFixed(2)) ?? 'not set'} %",

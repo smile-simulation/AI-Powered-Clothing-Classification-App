@@ -1,12 +1,10 @@
-import 'package:connect_tenserflow/utils/image_prediction/models/prediction.dart';
-import 'package:connect_tenserflow/utils/image_prediction/predection_models/clothes_prediction.dart';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 
-// import 'package:flutter/services.dart' show rootBundle;
+import 'models/prediction.dart';
+import 'base_clothes_prediction.dart';
 
-class DressTrousersBagPrediction extends ClothesPrediction {
-
+class DressTrousersBagPrediction extends BaseClothesPrediction {
   Future<Prediction> predict({required Uint8List imageUint8}) {
     return loadAndRunModel(
       modelPath: 'assets/ai_models/dress_trousers_bag_model.tflite',
