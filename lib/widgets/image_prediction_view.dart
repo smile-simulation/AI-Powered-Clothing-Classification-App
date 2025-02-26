@@ -1,11 +1,11 @@
 import 'dart:typed_data';
 
-import 'package:connect_tenserflow/utils/models/prediction.dart';
-import 'package:connect_tenserflow/utils/predection_models/dress_trousers_bag_prediction.dart';
+import 'package:connect_tenserflow/utils/image_prediction/models/prediction.dart';
+import 'package:connect_tenserflow/utils/image_prediction/predection_models/clothes_prediction.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../utils/predection_models/shirt_tshirt_shoes_model_prediction.dart';
+import '../utils/image_prediction/predection_models/shirt_tshirt_shoes_model_prediction.dart';
 import 'button_row.dart';
 import 'image_display.dart';
 import 'prediction_display.dart';
@@ -23,8 +23,10 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
   String imageType = "No Image Selected";
   bool isBaherModel = false;
   Prediction? selectedPrediction;
-  Prediction? baherPrediction;
-  Prediction? asmaaPrediction;
+  ShirtTshirtShoesModelPrediction baherPrediction =
+      ShirtTshirtShoesModelPrediction();
+  ShirtTshirtShoesModelPrediction asmaaPrediction =
+      ShirtTshirtShoesModelPrediction();
 
   Future<void> pickImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -45,13 +47,12 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
 
   Future<void> predictImageType() async {
     if (imageXFile != null) {
-      baherPrediction = await ShirtTshirtShoesModelPrediction().predict(
+      baherPrediction.prediction = await baherPrediction.predict(
         imageUint8: await imageXFile!.readAsBytes(),
       );
-      asmaaPrediction = await DressTrousersBagPrediction().predict(
+      asmaaPrediction.prediction = await asmaaPrediction.predict(
         imageUint8: await imageXFile!.readAsBytes(),
       );
-      selectedPrediction = isBaherModel ? baherPrediction : asmaaPrediction;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -98,12 +99,15 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
                 onPredict: predictImageType,
               ),
               Text(
-                "Your image is: ${getFinalResultPrediction(firstPrediction: baherPrediction, secondPrediction: asmaaPrediction) ?? 'Not Selected'}",
+                "Your image is: ${ClothesPrediction().getFinalResultPrediction(
+                      firstPrediction: baherPrediction.prediction,
+                      secondPrediction: asmaaPrediction.prediction,
+                    ) ?? 'Not Selected'}",
               ),
               selectedPrediction != null
                   ? PredictionDisplay(
-                      baherPrediction: baherPrediction,
-                      asmaaPrediction: asmaaPrediction,
+                      baherPrediction: baherPrediction.prediction,
+                      asmaaPrediction: asmaaPrediction.prediction,
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -118,27 +122,5 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
         ),
       ),
     );
-  }
-
-  String? getFinalResultPrediction({
-    required Prediction? firstPrediction,
-    required Prediction? secondPrediction,
-  }) {
-    if (firstPrediction == null || secondPrediction == null) {
-      return null;
-    }
-    if (firstPrediction.predictionValues![firstPrediction.predictionResult!] <
-            90 &&
-        secondPrediction.predictionValues![secondPrediction.predictionResult!] <
-            90) {
-      return "no valid clothes";
-    }
-    if (firstPrediction.predictionValues![firstPrediction.predictionResult!] >
-        secondPrediction
-            .predictionValues![secondPrediction.predictionResult!]) {
-      return firstPrediction.lables![firstPrediction.predictionResult!];
-    } else {
-      return secondPrediction.lables![secondPrediction.predictionResult!];
-    }
   }
 }

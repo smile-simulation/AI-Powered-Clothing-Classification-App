@@ -1,4 +1,4 @@
-import 'package:connect_tenserflow/utils/models/prediction.dart';
+import 'package:connect_tenserflow/utils/image_prediction/models/prediction.dart';
 import 'package:flutter/material.dart';
 
 class CustomPredictionValuesCard extends StatelessWidget {
@@ -41,6 +41,4 @@ class CustomPredictionValuesCard extends StatelessWidget {
       ),
     );
   }
-
- 
 }

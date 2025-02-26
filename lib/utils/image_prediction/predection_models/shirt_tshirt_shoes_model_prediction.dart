@@ -1,3 +1,4 @@
+import 'package:connect_tenserflow/utils/image_prediction/predection_models/clothes_prediction.dart';
 import 'package:image/image.dart' as img;
 import 'dart:developer';
 import 'dart:typed_data';
@@ -8,7 +9,7 @@ import 'package:tflite_flutter/tflite_flutter.dart';
 import '../models/prediction.dart';
 // import 'package:flutter/services.dart' show rootBundle;
 
-class ShirtTshirtShoesModelPrediction {
+class ShirtTshirtShoesModelPrediction extends ClothesPrediction {
   // Future<img.Image> loadImageFromAssets(String path) async {
   //   ByteData data = await rootBundle.load(path);
   //   Uint8List bytes = data.buffer.asUint8List();
@@ -50,45 +51,9 @@ class ShirtTshirtShoesModelPrediction {
     return prediction;
   }
 
-  int getPredictionResult(List<dynamic> predictionPercentages) {
-    // Define the labels corresponding to the output indices
-    List<String> labels = ["T-Shirt", "Shirt", "Shoes"];
 
-    // Find the index of the highest probability
-    int maxIndex = 0;
-    double maxProbability = predictionPercentages[0];
 
-    for (int i = 1; i < predictionPercentages.length; i++) {
-      if (predictionPercentages[i] > maxProbability) {
-        maxProbability = predictionPercentages[i];
-        maxIndex = i;
-      }
-    }
-
-    // Return the label with the highest probability
-    return maxIndex;
-  }
 
   // Convert image to Float32List for TensorFlow Lite model input
-  Future<Float32List> imageToByteListFloat32(
-      img.Image image, int inputSize) async {
-    var convertedBytes = Float32List(inputSize * inputSize * 3);
-    int pixelIndex = 0;
-
-    for (int y = 0; y < inputSize; y++) {
-      for (int x = 0; x < inputSize; x++) {
-        final pixel = image.getPixel(x, y);
-
-        int r = pixel.r.toInt();
-        int g = pixel.g.toInt();
-        int b = pixel.b.toInt();
-
-        convertedBytes[pixelIndex++] = r / 255.0;
-        convertedBytes[pixelIndex++] = g / 255.0;
-        convertedBytes[pixelIndex++] = b / 255.0;
-      }
-    }
-
-    return convertedBytes;
-  }
+  
 }
