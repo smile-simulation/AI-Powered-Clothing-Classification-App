@@ -1,7 +1,7 @@
 
 import 'dart:typed_data';
 
-import 'package:connect_tenserflow/utils/clothes_classification/clothes_prediction.dart';
+import 'package:connect_tenserflow/core/utils/clothes_classification/clothes_prediction.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

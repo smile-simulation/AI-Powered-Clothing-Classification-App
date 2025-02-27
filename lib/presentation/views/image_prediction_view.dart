@@ -1,5 +1,5 @@
 
-import 'package:connect_tenserflow/utils/app_colors.dart';
+import 'package:connect_tenserflow/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/image_prediction_view_body.dart';

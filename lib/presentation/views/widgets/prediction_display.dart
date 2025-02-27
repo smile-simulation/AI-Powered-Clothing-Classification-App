@@ -1,4 +1,4 @@
-import 'package:connect_tenserflow/utils/clothes_classification/clothes_prediction.dart';
+import 'package:connect_tenserflow/core/utils/clothes_classification/clothes_prediction.dart';
 import 'package:flutter/material.dart';
 
 import 'custom_prediction_values_card.dart';

@@ -1,4 +1,4 @@
-import 'package:connect_tenserflow/utils/app_colors.dart';
+import 'package:connect_tenserflow/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ButtonRow extends StatelessWidget {

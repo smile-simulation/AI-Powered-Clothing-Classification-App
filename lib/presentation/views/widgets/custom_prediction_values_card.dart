@@ -1,5 +1,5 @@
-import 'package:connect_tenserflow/utils/app_colors.dart';
-import 'package:connect_tenserflow/utils/clothes_classification/models/prediction_model.dart';
+import 'package:connect_tenserflow/core/utils/app_colors.dart';
+import 'package:connect_tenserflow/core/utils/clothes_classification/models/prediction_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomPredictionValuesCard extends StatelessWidget {
