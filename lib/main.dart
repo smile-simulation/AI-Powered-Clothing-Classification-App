@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/image_prediction_view.dart';
+import 'presentation/views/image_prediction_view.dart';
 
 void main() {
   runApp(const GuuessClothesProductApp());

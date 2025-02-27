@@ -4,10 +4,10 @@ import 'dart:typed_data';
 import 'package:image/image.dart' as img;
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-import 'models/prediction.dart';
+import 'models/prediction_model.dart';
 
 abstract class BaseClothesPrediction {
-  Prediction? prediction;
+  PredictionModel? prediction;
 
   int getPredictionResult(List<dynamic> predictionPercentages) {
     // Find the index of the highest probability
@@ -46,9 +46,7 @@ abstract class BaseClothesPrediction {
     return convertedBytes;
   }
 
-  
-
-  Future<Prediction> loadAndRunModel({
+  Future<PredictionModel> loadAndRunModel({
     required String modelPath,
     required Uint8List imageUint8,
     required int inputSize,
@@ -72,7 +70,7 @@ abstract class BaseClothesPrediction {
         (output[0] as List).map((e) => e * 100).toList();
     log("Prediction Probabilities: $predictionPercentages");
 
-    return Prediction()
+    return PredictionModel()
       ..predictionResult = getPredictionResult(predictionPercentages)
       ..predictionValues = predictionPercentages
       ..lables = labels;

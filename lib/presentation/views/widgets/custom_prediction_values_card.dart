@@ -1,5 +1,5 @@
 import 'package:connect_tenserflow/utils/app_colors.dart';
-import 'package:connect_tenserflow/utils/clothes_classification/models/prediction.dart';
+import 'package:connect_tenserflow/utils/clothes_classification/models/prediction_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomPredictionValuesCard extends StatelessWidget {
@@ -9,7 +9,7 @@ class CustomPredictionValuesCard extends StatelessWidget {
     required this.predictionModel,
   });
   final String predictionModel;
-  final Prediction prediction;
+  final PredictionModel prediction;
   @override
   Widget build(BuildContext context) {
     return Expanded(
