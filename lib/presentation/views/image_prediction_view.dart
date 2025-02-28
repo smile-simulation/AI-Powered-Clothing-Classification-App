@@ -1,6 +1,7 @@
-
 import 'package:connect_tenserflow/core/utils/app_colors.dart';
+import 'package:connect_tenserflow/presentation/managers/image_prediction_cubit/image_prediction_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widgets/image_prediction_view_body.dart';
 
@@ -23,7 +24,10 @@ class _ImagePredictionViewState extends State<ImagePredictionView> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: ImagePredictionViewBody(),
+          child: BlocProvider(
+            create: (context) => ImagePredictionCubit(),
+            child: ImagePredictionViewBody(),
+          ),
         ),
       ),
     );

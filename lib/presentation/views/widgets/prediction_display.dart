@@ -16,14 +16,16 @@ class PredictionDisplay extends StatelessWidget {
       child: Column(
         children: [
           CustomPredictionValuesCard(
-            prediction: clothesPrediction.baherPrediction.prediction!,
+            prediction:
+                clothesPrediction.shirtTshirtShoesPrediction.prediction!,
             predictionModel: 'shirt, T-shirt, shoes Prediction',
           ),
           SizedBox(
             height: 16,
           ),
           CustomPredictionValuesCard(
-            prediction: clothesPrediction.asmaaPrediction.prediction!,
+            prediction:
+                clothesPrediction.dressTrousersBagPrediction.prediction!,
             predictionModel: 'dress, trousers, bag Prediction',
           )
         ],

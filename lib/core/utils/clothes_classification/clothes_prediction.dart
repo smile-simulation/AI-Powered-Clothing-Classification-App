@@ -6,16 +6,23 @@ import 'dress_trousers_bag_prediction.dart';
 import 'shirt_tshirt_shoes_model_prediction.dart';
 
 class ClothesPrediction extends BaseClothesPrediction {
-  ShirtTshirtShoesModelPrediction baherPrediction =
+  ShirtTshirtShoesModelPrediction shirtTshirtShoesPrediction =
       ShirtTshirtShoesModelPrediction();
-  DressTrousersBagPrediction asmaaPrediction = DressTrousersBagPrediction();
-
+  DressTrousersBagPrediction dressTrousersBagPrediction =
+      DressTrousersBagPrediction();
+  String? predictionResult;
   Future<void> predictImageType(Uint8List image) async {
-    baherPrediction.prediction = await baherPrediction.predict(
+    shirtTshirtShoesPrediction.prediction =
+        await shirtTshirtShoesPrediction.predict(
       imageUint8: image,
     );
-    asmaaPrediction.prediction = await asmaaPrediction.predict(
+    dressTrousersBagPrediction.prediction =
+        await dressTrousersBagPrediction.predict(
       imageUint8: image,
+    );
+    predictionResult = getFinalResultPrediction(
+      firstPrediction: dressTrousersBagPrediction.prediction,
+      secondPrediction: shirtTshirtShoesPrediction.prediction,
     );
   }
 
