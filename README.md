@@ -1,35 +1,36 @@
-# TensorFlow Lite Image Classification in Flutter
+# 🚀 AI-Powered Clothing Classification App! 👕👗  
 
-This Flutter application utilizes **TensorFlow Lite (TFLite)** to classify images as **T-shirt**, **Shirt**, or **Shoes**. Users can capture or select an image, which is processed by a pre-trained TFLite model to predict its category.
-
----
-
-## 🚀 Features
-- **Capture Image** – Take a picture using the device camera.
-- **Select from Gallery** – Pick an image for classification.
-- **AI Model Prediction** – Uses TensorFlow Lite for real-time analysis.
-- **Prediction Confidence** – Displays probability scores.
-- **User-Friendly UI** – Simple interface with intuitive controls.
+A **Flutter-based clothing classifier** using **on-device AI models** for real-time predictions! This project integrates **TensorFlow Lite** models to recognize various clothing items, enabling fast and efficient inference on mobile devices.  
 
 ---
 
-## 🛠 Tech Stack
-- **Flutter** – UI framework
-- **TensorFlow Lite** – Machine learning model
-- **image_picker** – Image selection
-- **image** – Image processing
+## 📌 Features  
+- **AI-Powered Classification** – Detects T-Shirts, Shirts, Shoes, Dresses, Trousers, and Bags  
+- **On-Device Inference** – Uses optimized **TensorFlow Lite** models for real-time processing  
+- **Camera & Gallery Support** – Capture or select images for classification  
+- **Efficient State Management** – **Cubit** for managing AI model loading, predictions, and UI state  
+- **Optimized User Experience** – Error handling, image preprocessing, and smooth interactions  
 
 ---
 
-## 🔍 How It Works
-1. **Select an Image** – Capture from the camera or pick from the gallery.
-2. **Preprocess Image** – Resize and normalize for model input.
-3. **Run Model** – The TensorFlow Lite model predicts the category.
-4. **Display Result** – Shows the classification (T-shirt, Shirt, or Shoes).
+## 🛠️ Tech Stack  
+- **Flutter** (Dart)  
+- **TensorFlow Lite**  
+- **Cubit (State Management)**  
+- **image_picker** (Camera & Gallery)  
+- **flutter_launcher_icons** (Custom Branding)  
 
 ---
 
-## Getting Started
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/smile-simulation/AI-Powered-Clothing-Classification-App.git
+
+## 🎯 Special Thanks  
+A huge thanks to **Eng. Asmaa Esmat** and **Eng. Baher Hamada** for their incredible AI model development, making this project possible! 🙌
+
+---
+
+## 🔧 Installation & Setup  
+
+### 2️⃣ Clone the Repository  
+```sh
+git clone https://github.com/smile-simulation/AI-Powered-Clothing-Classification-App.git
+cd guess_clothes_product
